@@ -1,1 +1,0 @@
-{"version":3,"sources":["dist/shared/types/misc.ts"],"names":[],"mappings":"","file":"misc.js","sourcesContent":["/**\r\n * Application environments.\r\n */\r\nexport type TAppEnvironment = 'local' | 'staging' | 'production';\r\n"],"sourceRoot":"/"}

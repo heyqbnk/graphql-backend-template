@@ -1,1 +1,0 @@
-{"version":3,"sources":["dist/shared/controllers/index.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,qDAAmC;AACnC,oDAAkC;AAClC,oDAAkC","file":"index.js","sourcesContent":["export * from './AccessController';\r\nexport * from './PostsController';\r\nexport * from './UsersController';"],"sourceRoot":"/"}

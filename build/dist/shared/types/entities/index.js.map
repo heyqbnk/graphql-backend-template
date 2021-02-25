@@ -1,1 +1,0 @@
-{"version":3,"sources":["dist/shared/types/entities/index.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,0CAAwB;AACxB,0CAAwB","file":"index.js","sourcesContent":["export * from './IPost';\r\nexport * from './IUser';"],"sourceRoot":"/"}

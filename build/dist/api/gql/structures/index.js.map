@@ -1,1 +1,0 @@
-{"version":3,"sources":["dist/api/gql/structures/index.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,0CAAwB;AACxB,2CAAyB;AACzB,2CAAyB","file":"index.js","sourcesContent":["export * from './admin';\r\nexport * from './shared';\r\nexport * from './public';"],"sourceRoot":"/"}

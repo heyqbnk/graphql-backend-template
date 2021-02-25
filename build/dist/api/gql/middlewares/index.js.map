@@ -1,1 +1,0 @@
-{"version":3,"sources":["dist/api/gql/middlewares/index.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,qDAAmC","file":"index.js","sourcesContent":["export * from './SentryMiddleware';\r\n"],"sourceRoot":"/"}

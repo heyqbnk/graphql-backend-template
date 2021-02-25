@@ -15,7 +15,7 @@
     "commit": "git-cz",
     "prerelease": "yarn test",
     "release": "standard-version -a",
-    "release:tags": "git push --follow-tags origin staging",
+    "release:tags": "git push --follow-tags origin master",
     "postrelease": "npm-run-all release:*"
   },
   "devDependencies": {

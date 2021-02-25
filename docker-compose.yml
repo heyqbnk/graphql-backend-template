@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  # GraphQL API service.
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn up
+    ports:
+      - "$PORT:$PORT"
+    depends_on:
+      - db
+    restart: always
+
+  # Container which deploys source maps to sentry.
+  source-maps:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn deploy-source-maps
+    restart: "no"

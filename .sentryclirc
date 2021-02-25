@@ -1,0 +1,4 @@
+[defaults]
+org = YOUR ORGANIZATION
+project = YOUR PROJECT
+url = SENTRY BASE URL # Example: https://sentry.org/

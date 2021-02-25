@@ -1,0 +1,1 @@
+{"version":3,"sources":["dist/shared/types/entities/IPost.ts"],"names":[],"mappings":"","file":"IPost.js","sourcesContent":["/**\r\n * Post.\r\n */\r\nexport interface IPost {\r\n  id: number;\r\n  userId: number;\r\n  title: string;\r\n  content: string;\r\n  createdAt: Date;\r\n  deletedAt?: Date;\r\n}"],"sourceRoot":"/"}

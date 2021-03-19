@@ -1,4 +1,4 @@
-# nutrition-backend
+# graphql-backend-template
 
 ## Technologies stack
 
@@ -94,6 +94,6 @@ specified variables:
 
 ## Project build
 
-To build project, `gulp` task manager is used. As a result, folder with ready to use project 
-should be created. Project build is made the way it could be launched both locally and
-inside docker container.
+To build project, we use `gulp` task manager. As a result, folder with ready 
+to use project should be created. Project build is made the way it could be 
+launched both locally and inside docker container.

@@ -13,6 +13,9 @@ import packageJson from '../../../package.json';
 dotenv.config({path: path.resolve(__dirname, '../../../.env')});
 
 const appEnv = getAppEnvironment('APP_ENV');
+const dbPort = getNumber('DB_PORT', {defaultValue: 27017});
+const dbName = getString('DB_NAME');
+const dbHost = getString('DB_HOST', {defaultValue: 'db'});
 const enableCors = getBoolean('ENABLE_CORS', {defaultValue: false});
 const enableMultiThread = getBoolean('ENABLE_MULTI_THREAD', {defaultValue: true});
 const port = getNumber('PORT');
@@ -28,6 +31,9 @@ const jwtSecretKey = getString('JWT_SECRET_KEY');
 
 export const config: IConfig = {
   appEnv,
+  dbPort,
+  dbName,
+  dbHost,
   enableCors,
   enableMultiThread,
   gqlAdminHttpEndpoint,

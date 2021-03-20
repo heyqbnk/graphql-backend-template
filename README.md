@@ -57,6 +57,9 @@ specified variables:
 |---|---|---|---|---|
 | `APP_ENV` | `local`, `staging`, `production` | yes | | Project environment |
 | `DB_VOLUME_PATH` | `string` | yes | | Path to docker volume which will be shared with MongoDB docker container |
+| `DB_HOST` | `string` | no | `db` | DB host |
+| `DB_PORT` | `number` | no | `27017` | DB port | 
+| `DB_NAME` | `string` | yes | | DB name |
 | `ENABLE_CORS` | `boolean` | no | `0` | Should CORS be enabled |
 | `ENABLE_MULTI_THREAD` | `boolean` | no | `1` | Should multi cluster mode be enabled |
 | `GQL_ADMIN_HTTP_ENDPOINT` | `string` | no | `/gql-adm` | Path to admin GraphQL API |

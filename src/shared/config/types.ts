@@ -5,6 +5,9 @@ import {TAppEnvironment} from '~/shared/types';
  */
 export interface IConfig {
   appEnv: TAppEnvironment;
+  dbPort: number;
+  dbName: string;
+  dbHost: string;
   enableCors: boolean,
   enableMultiThread: boolean;
   gqlAdminHttpEndpoint: string;

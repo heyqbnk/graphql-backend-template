@@ -13,16 +13,26 @@ export class Logger {
   config: IConfig;
 
   /**
-   * Logs message into console.
+   * Logs message into console only in case application environment allows it.
    * @param args
    */
   log(...args: any[]) {
+    // Log message only in case application is run
     if (this.config.appEnv === 'local') {
-      console.log(
-        bgGreenBright(black(bold('[Logger]'))),
-        yellow(bold('[' + dayjs().format('hh:mm:ss')) + ']'),
-        ...args,
-      );
+      this.logForce(...args);
     }
+  }
+
+  /**
+   * Logs message into console without checking current application
+   * environment.
+   * @param args
+   */
+  logForce(...args: any[]) {
+    console.log(
+      bgGreenBright(black(bold('[Logger]'))),
+      yellow(bold('[' + dayjs().format('hh:mm:ss')) + ']'),
+      ...args,
+    );
   }
 }

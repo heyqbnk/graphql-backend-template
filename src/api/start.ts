@@ -1,4 +1,4 @@
-import '~/shared/globals';
+import '~/globals';
 import {injectDependencies} from '~/shared/di';
 import {fatalErrorCatcher} from '~/shared/utils';
 import * as Sentry from '@sentry/node';

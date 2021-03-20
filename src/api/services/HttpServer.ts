@@ -2,18 +2,25 @@ import {createServer as createHttpServer} from 'http';
 import express, {ErrorRequestHandler} from 'express';
 import cors from 'cors';
 import {Inject, Service} from 'typedi';
-import {ConfigToken} from '~/shared/di';
+import {
+  ConfigToken,
+  SecurityAdapterToken,
+  Config,
+  SecurityAdapter,
+} from '~/shared/di';
 import {Logger} from '~/shared/services';
-import {IConfig} from '~/shared/config';
 import {ApolloServer} from '~/api/services/ApolloServer';
 
 @Service()
-export class Server {
+export class HttpServer {
   @Inject(ConfigToken)
-  config: IConfig;
+  config: Config;
 
   @Inject(() => Logger)
   logger: Logger;
+
+  @Inject(SecurityAdapterToken)
+  securityAdapter: SecurityAdapter;
 
   /**
    * Starts http server.
@@ -26,8 +33,8 @@ export class Server {
     const httpServer = createHttpServer(app);
 
     // Then, create servers for public and admin routes.
-    const admServer = ApolloServer.createScoped('admin');
-    const publicServer = ApolloServer.createScoped('public');
+    const admServer = ApolloServer.createScoped('admin', this.securityAdapter);
+    const publicServer = ApolloServer.createScoped('public', this.securityAdapter);
 
     // Install subscription handlers.
     admServer.installSubscriptionHandlers(httpServer);

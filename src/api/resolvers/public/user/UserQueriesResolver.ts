@@ -1,10 +1,8 @@
 import {Args, ArgsType, Field, Query, Resolver} from 'type-graphql';
 import {User} from '~/api/resolvers';
 import {Inject} from 'typedi';
-import {AccessController, UsersController} from '~/shared/controllers';
-import {UserNotFoundError} from '~/api/errors';
-import {CurrentUser, RequireScope, UseCurrentUser} from '~/api/decorators';
-import {EAccessScope} from '~/shared/types';
+import {UsersController} from '~/shared/controllers';
+import {UseContext, Context, CurrentUser, UseCurrentUser} from '~/api/decorators';
 
 @ArgsType()
 class LoginArgs {
@@ -20,30 +18,30 @@ export class UserQueriesResolver {
   @Inject(() => UsersController)
   controller: UsersController;
 
-  @Inject(() => AccessController)
-  accessController: AccessController;
-
-  @RequireScope(EAccessScope.ReadUserInfo)
-  @Query(() => User, {
-    description: 'Returns information about current user',
-  })
-  user(@UseCurrentUser() user: CurrentUser): User {
-    return new User(user);
-  }
+  // @Query(() => User, {
+  //   description: 'Returns information about current user',
+  // })
+  // user(): User {
+  //   return new User(user);
+  // }
 
   @Query(() => String, {
     description: 'Authenticates user and returns token with default ' +
       'access scopes'
   })
   login(
+    @UseCurrentUser() user: CurrentUser,
+    @UseContext() ctx: Context,
     @Args(() => LoginArgs) args: LoginArgs,
   ): string {
-    const {login, password} = args;
-    const user = this.controller.getByLoginAndPassword(login, password);
-
-    if (user === null) {
-      throw new UserNotFoundError();
-    }
-    return this.accessController.createDefaultUserToken(user.id);
+    console.log(ctx, user)
+    // const {login, password} = args;
+    // const user = this.controller.getByLoginAndPassword(login, password);
+    //
+    // if (user === null) {
+    //   throw new UserNotFoundError();
+    // }
+    // return this.accessController.createDefaultUserToken(user.id);
+    return ''
   }
 }

@@ -10,9 +10,9 @@ import {config} from '~/shared/config';
 import path from 'path';
 
 /**
- * This files is required part of application. It applies difference project
+ * This files is required part of application. It applies different project
  * life required things such as initializing Sentry, configuring
- * class-validator and dayjs module.
+ * class-validator and dayjs plugins.
  */
 
 // Initialize sentry.

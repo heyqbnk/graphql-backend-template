@@ -1,12 +1,12 @@
 import {NonEmptyArray} from 'type-graphql';
-import {UserMutationsResolver, UserQueriesResolver} from './user';
+import {UserQueriesResolver} from './user';
 
 /**
  * Возвращает список резолверов для админской ручки TypeGraphQL.
  */
 export function getAdminResolvers(): NonEmptyArray<any> {
   return [
-    UserMutationsResolver,
+    // UserMutationsResolver,
     UserQueriesResolver,
   ];
 }

@@ -65,6 +65,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.5",
     "reflect-metadata": "^0.1.13",
+    "subscriptions-transport-ws": "^0.9.18",
     "type-graphql": "^1.0.0",
     "typedi": "^0.8.0"
   },

@@ -1,11 +1,10 @@
-import '~/shared/globals';
 import {ConfigToken} from '~/shared/di';
 import {Logger, PubSubProvider} from '~/shared/services';
 import {Inject, Service} from 'typedi';
 import {fork, isMaster} from 'cluster';
 import os from 'os';
 import {IConfig} from '~/shared/config';
-import {Server} from '~/api/services/Server';
+import {HttpServer} from './HttpServer';
 
 @Service()
 export class App {
@@ -15,8 +14,8 @@ export class App {
   @Inject(ConfigToken)
   config: IConfig;
 
-  @Inject(() => Server)
-  httpServer: Server;
+  @Inject(() => HttpServer)
+  httpServer: HttpServer;
 
   /**
    * Runs project in single thread mode.

@@ -1,12 +1,6 @@
 import {Container} from 'typedi';
-import {GraphQLError, GraphQLFormattedError} from 'graphql';
-import {EApolloErrors, IAuthorizedContext, IContext} from '../types';
-import {ContextFunction} from 'apollo-server-core';
-import {
-  ExpressContext,
-  ApolloServer as OriginalApolloServer,
-} from 'apollo-server-express';
-import {decodeUserJWT, isString, isUndefined} from '../../shared/utils';
+import {ApolloServer as OriginalApolloServer} from 'apollo-server-express';
+import {isString} from '~/shared/utils';
 import {
   BuildSchemaOptions,
   buildSchemaSync,
@@ -22,7 +16,7 @@ import {
 import {ConfigToken} from '~/shared/di';
 import {Server as HttpServer} from "http";
 import {Router} from 'express';
-import {EAccessScope, EUserRole} from '~/shared/types';
+import {EAccessScope, EUserRole, TAppSecurityAdapter} from '~/shared/types';
 
 interface IConProps extends BuildSchemaOptions {
   /**
@@ -46,6 +40,10 @@ interface IConProps extends BuildSchemaOptions {
    * @default false
    */
   playground?: boolean;
+  /**
+   * Security adapter which processes incoming requests.
+   */
+  securityAdapter: TAppSecurityAdapter;
 }
 
 export class ApolloServer {
@@ -71,6 +69,7 @@ export class ApolloServer {
       subscriptionsPath,
       playground = false,
       introspection = false,
+      securityAdapter,
       ...restSchemaOptions
     } = props;
     const schema = buildSchemaSync({
@@ -81,112 +80,17 @@ export class ApolloServer {
     });
 
     this.server = new OriginalApolloServer({
-      context: ApolloServer.createContext,
-      formatError: ApolloServer.formatError,
+      context: securityAdapter.createContext,
+      formatError: securityAdapter.formatError,
       subscriptions: isString(subscriptionsPath) ? {
         path: subscriptionsPath,
-        onConnect: ApolloServer.onConnect,
+        onConnect: securityAdapter.onConnect,
       } : false,
       schema,
       introspection,
       playground,
     });
   }
-
-  /**
-   * Formats error occurred in resolver before sending it to client.
-   * Removes some private fields.
-   * @param error
-   */
-  private static formatError = (
-    error: GraphQLError,
-  ): {name: string} & GraphQLFormattedError => {
-    const {name, extensions, path, message} = error;
-
-    // Error thrown by Type GraphQL in Authorized decorator.
-    if (message.startsWith('Access denied!')) {
-      return {
-        name: EApolloErrors.Forbidden,
-        message,
-        path,
-      };
-    }
-    // Validation error thrown by class-validator.
-    else if (extensions?.exception && 'validationErrors' in extensions.exception) {
-      return {
-        name: EApolloErrors.Validation,
-        message,
-        path,
-        extensions: {
-          exception: extensions?.exception.validationErrors,
-        },
-      };
-    }
-      // Error thrown by Apollo GraphQL Server occurring when query sent by
-    // client is incorrect.
-    else if (name === 'ValidationError') {
-      return {
-        name: EApolloErrors.Schema,
-        message,
-        path,
-      };
-    }
-      // Error thrown in our code in some resolver. In case, error name is unknown,
-    // use "UnknownError".
-    else if (name === 'GraphQLError') {
-      return {
-        name: extensions?.exception?.name || EApolloErrors.Unknown,
-        message,
-        path,
-      };
-    }
-    // Unknown error.
-    return {name, path, message};
-  };
-
-  /**
-   * Context creator for Apollo resolvers.
-   * @private
-   */
-  private static createContext: ContextFunction<ExpressContext, IContext | IAuthorizedContext> = options => {
-    const {req, connection} = options;
-    let context: IContext | IAuthorizedContext;
-
-    // In case, connection is undefined, it means, context is being created in
-    // usual HTTP resolver.
-    if (isUndefined(connection)) {
-      context = {
-        token: (req.header('authorization') || '').split(' ')[1] || null,
-      };
-    } else {
-      // Otherwise, we are in websocket context. Context was created previously in
-      // "onConnect" method.
-      context = connection.context;
-    }
-    const {token} = context;
-
-    if (token !== null) {
-      const payload = decodeUserJWT(token);
-
-      if (payload !== null) {
-        return {...context, user: payload};
-      }
-    }
-    return context;
-  };
-
-  /**
-   * Function which is called while web socket connection to server is being
-   * created. As a result, it should return context value.
-   * @param connectionParams
-   */
-  private static onConnect = (
-    connectionParams: Record<any, any>,
-  ): IContext => {
-    return {
-      token: (connectionParams['authorization'] || '').split(' ')[1] || null,
-    };
-  };
 
   /**
    * Register all required GraphQL enums.
@@ -209,10 +113,12 @@ export class ApolloServer {
   /**
    * Creates scoped server.
    * @param type
+   * @param securityAdapter
    * @private
    */
   static createScoped(
     type: 'public' | 'admin',
+    securityAdapter: TAppSecurityAdapter,
   ): ApolloServer {
     const {
       gqlPublicWSEndpoint,
@@ -227,6 +133,7 @@ export class ApolloServer {
       resolvers: [...getSharedResolvers(), ...getResolvers()],
       subscriptionsPath: wsPath || undefined,
       playground: true,
+      securityAdapter,
       // Allow introspection only for public resolvers.
       introspection: type === 'public',
     });

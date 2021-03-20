@@ -1,6 +1,3 @@
-/**
- * Post.
- */
 export interface IPost {
   id: number;
   userId: number;

@@ -7,7 +7,7 @@ import {
 } from 'type-graphql';
 import {User} from '~/api/resolvers';
 import {EUserRole} from '~/shared/types';
-import {RequireRole} from '~/api/decorators';
+// import {RequireRole} from '~/api/decorators';
 import {UsersController} from '~/shared/controllers';
 import {Inject} from 'typedi';
 import {UserNotFoundError} from '~/api/errors';
@@ -17,7 +17,7 @@ export class UserQueriesResolver {
   @Inject(() => UsersController)
   controller: UsersController;
 
-  @RequireRole({oneOf: [EUserRole.Moderator, EUserRole.Admin]})
+  // @RequireRole({oneOf: [EUserRole.Moderator, EUserRole.Admin]})
   @Query(() => User, {
     description: 'Returns user by id',
     nullable: true,

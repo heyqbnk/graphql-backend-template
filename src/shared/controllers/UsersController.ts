@@ -1,4 +1,5 @@
-import {EUserRole, IUser} from '~/shared/types';
+import {EUserRole} from '~/shared/types';
+import {IUser} from '~/shared/db';
 import {Service} from 'typedi';
 
 interface IRegisterOptions {

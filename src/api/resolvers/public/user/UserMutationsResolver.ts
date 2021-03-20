@@ -10,7 +10,7 @@ import {
 import {User} from '~/api/resolvers';
 import {IsAlphanumeric, MaxLength, MinLength} from 'class-validator';
 import {Inject} from 'typedi';
-import {AccessController, UsersController} from '~/shared/controllers';
+import {UsersController} from '~/shared/controllers';
 import {UserIsAlreadyRegisteredError} from '~/api/errors';
 
 @ArgsType()
@@ -56,29 +56,35 @@ export class UserMutationsResolver {
   @Inject(() => UsersController)
   controller: UsersController;
 
-  @Inject(() => AccessController)
-  accessController: AccessController;
-
   @Mutation(() => RegisterResult)
   register(
     @Args(() => RegisterArgs) arg: RegisterArgs
   ): RegisterResult {
-    const {firstName, lastName, login, password} = arg;
-
-    try {
-      const user = this.controller.register({
-        firstName,
-        lastName: lastName || undefined,
-        login,
-        password,
-      });
-      const token = this
-        .accessController
-        .createDefaultUserToken(user.id);
-
-      return new RegisterResult(new User(user), token);
-    } catch (e) {
-      throw new UserIsAlreadyRegisteredError();
+    return {
+      user: {
+        id: 1,
+        lastName: '',
+        firstName: '',
+        posts: []
+      },
+      token: ''
     }
+    // const {firstName, lastName, login, password} = arg;
+    //
+    // try {
+    //   const user = this.controller.register({
+    //     firstName,
+    //     lastName: lastName || undefined,
+    //     login,
+    //     password,
+    //   });
+    //   const token = this
+    //     .accessController
+    //     .createDefaultUserToken(user.id);
+    //
+    //   return new RegisterResult(new User(user), token);
+    // } catch (e) {
+    //   throw new UserIsAlreadyRegisteredError();
+    // }
   }
 }

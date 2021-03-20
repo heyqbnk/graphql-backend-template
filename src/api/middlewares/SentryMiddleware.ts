@@ -1,24 +1,18 @@
 import {MiddlewareFn} from 'type-graphql';
-import {TAnyContext} from '~/api/types';
 import * as Sentry from '@sentry/node';
+import {TAppSecurityAdapterProducedContext} from '~/shared/types';
 
 /**
  * Middleware that catches error and sends it to Sentry.
- * @returns {MiddlewareFn<TAnyContext>}
+ * @returns {MiddlewareFn<TAppSecurityAdapterProducedContext>}
  */
-export const SentryMiddleware: MiddlewareFn<TAnyContext> =
-  async ({context}, next) => {
+export const SentryMiddleware: MiddlewareFn<TAppSecurityAdapterProducedContext> =
+  async (_, next) => {
     try {
       return await next();
     } catch (e) {
-      Sentry.captureException(e, scope => {
-        if ('user' in context) {
-          // Set error user, so we could know which user had this problem.
-          scope.setUser({id: context.user.id.toString()});
-        }
-        return scope;
-      });
-      // Rethrow an error, so Apollo Server could catch it and return
+      Sentry.captureException(e);
+      // Rethrow an error, so Apollo HttpServer could catch it and return
       // appropriately.
       throw e;
     }

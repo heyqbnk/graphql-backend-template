@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/node';
 import {Severity} from '@sentry/node';
 
 /**
- * Creates function which cathes error with Sentry and logs it into console.
+ * Creates function which catches error with Sentry and logs it into console.
  * @param {Severity} severity
  * @returns {(e: Error) => void}
  */

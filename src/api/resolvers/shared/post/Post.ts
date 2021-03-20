@@ -1,6 +1,6 @@
 import {Field, ObjectType} from 'type-graphql';
 import {User} from '~/api/resolvers';
-import {IPost} from '~/shared/types';
+import {IPost} from '~/shared/db';
 
 @ObjectType({description: 'Post'})
 export class Post {

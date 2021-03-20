@@ -68,7 +68,7 @@ specified variables:
 | `GQL_PUBLIC_HTTP_ENDPOINT` | `string` | no | `/gql` | Path to public GraphQL API |
 | `GQL_PUBLIC_WS_ENDPOINT` | `string` | no | | Path to public GraphQL websocket subscriptions |
 | `JWT_SECRET_KEY` | `string` | yes | | Secret which is used to create JSON Web Tokens |
-| `PORT` | `number` | yes | | Server port |
+| `PORT` | `number` | yes | | HttpServer port |
 | `SENTRY_DSN` | `string` | Required when `APP_ENV` is equal to `staging` or `production` | | Sentry DSN for error logging |
 | `SENTRY_DEPLOY_TOKEN` | `string` | Required when `APP_ENV` is equal to `staging` or `production` | | Sentry token used while deploying artifacts |
 

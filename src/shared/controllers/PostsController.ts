@@ -1,5 +1,5 @@
 import {Inject, Service} from 'typedi';
-import {IPost} from '~/shared/types';
+import {IPost} from '~/shared/db';
 import {UsersController} from '~/shared/controllers/UsersController';
 
 interface ICreateData {

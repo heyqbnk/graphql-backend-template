@@ -1,5 +1,5 @@
 import {Field, Int, Maybe, ObjectType} from 'type-graphql';
-import {IUser} from '~/shared/types';
+import {IUser} from '~/shared/db';
 import {Post} from '~/api/resolvers';
 
 @ObjectType({description: 'User information'})

@@ -1,28 +1,27 @@
 import {createParamDecorator} from 'type-graphql';
-import {IAuthorizedContext} from '../../types';
 import {UserNotFoundError} from '~/api/errors';
 import {Container} from 'typedi';
-import {UsersController} from '~/shared/controllers';
-import {IUser} from '~/shared/types';
+import {
+  TAppSecurityAdapterProducedContext,
+  TAppSecurityAdapterUser,
+} from '~/shared/types';
+import {SecurityAdapterToken} from '~/shared/di';
 
 /**
- * Возвращает текущего пользователя в случае, если он зарегистрирован.
+ * Returns current user based on context.
  * @returns {ParameterDecorator}
  * @constructor
  */
 export function UseCurrentUser() {
-  return createParamDecorator<IAuthorizedContext>(async ({context}) => {
-    if (!('user' in context)) {
-      throw new UserNotFoundError();
-    }
-    const usersController = Container.get(UsersController);
-    const user = usersController.getById(context.user.id);
+  return createParamDecorator<TAppSecurityAdapterProducedContext>(async ({context}) => {
+    const securityAdapter = Container.get(SecurityAdapterToken);
+    const user = await securityAdapter.getUser(context);
 
-    if (!user) {
+    if (user === null) {
       throw new UserNotFoundError();
     }
     return user;
   });
 }
 
-export {IUser as CurrentUser};
+export {TAppSecurityAdapterUser as CurrentUser};

@@ -1,13 +1,15 @@
 import {Container} from 'typedi';
 import {config} from '~/shared/config';
-import {ConfigToken, MongoClientToken} from './tokens';
+import {ConfigToken, MongoClientToken, SecurityAdapterToken} from './tokens';
 import {MongoClient} from 'mongodb';
+import {JWTSecurityAdapter} from '~/shared/security-adapters';
 
 /**
  * Inject synchronous dependencies.
  */
 function injectSyncDependencies() {
   Container.set(ConfigToken, config);
+  Container.set(SecurityAdapterToken, new JWTSecurityAdapter());
 }
 
 /**

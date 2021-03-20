@@ -33,7 +33,7 @@ npm manifest:
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-      "dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --transpile-only --clear -- src/api/index.ts",
+      "dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --transpile-only --clear -- src/api/start.ts",
       "start": "NODE_ENV=production node -r ./tsconfig-paths-bootstrap.js build/dist/api/index.js",
       "up": "yarn build && yarn start",
       "build": "gulp -f utils/build.js",

@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --transpile-only --clear -- src/api/index.ts",
-    "start": "cross-env NODE_ENV=production node -r ./tsconfig-paths-bootstrap.js build/dist/api/index.js",
+    "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --transpile-only --clear -- src/api/start.ts",
+    "start": "cross-env NODE_ENV=production node -r ./tsconfig-paths-bootstrap.js build/dist/api/start.js",
     "up": "yarn build && yarn start",
     "build": "gulp -f utils/build.js",
     "deploy-source-maps": "gulp -f utils/deploy-source-maps.js",

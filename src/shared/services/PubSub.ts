@@ -2,7 +2,7 @@ import {PubSub as GqlPubSub, PubSubOptions} from 'graphql-subscriptions';
 import {worker, isWorker, isMaster, workers, Worker} from 'cluster';
 import {isObject, isString, isUndefined} from '~/shared/utils';
 import {Service} from 'typedi';
-import {EPubSubEvent, TGetPubSubEventPayload} from '~/api/gql/types';
+import {EPubSubEvent, TGetPubSubEventPayload} from '~/api/types';
 
 interface IPubSubMessage {
   type: 'PubSubMessage';

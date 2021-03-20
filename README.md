@@ -11,6 +11,7 @@
 - Docker
 - Commitizen
 - JSON Web Token
+- MongoDB
 
 ## Features
 - Comments and descriptions for all the functions and "strange" things in

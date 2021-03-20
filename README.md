@@ -89,10 +89,14 @@ specified variables:
 | `git push` | Push changes |
 
 ## Launch project
+
 1. Install all the dependencies: `yarn install`
 2. Create `.env` file in project root and state all the [required environment variables](#переменные-окружения)
 3. Build project: `yarn build`
-4. Start project: `yarn start` 
+4. Start project: `yarn start`
+
+In case, you want to run project in development mode, where server is 
+restarting when file changes are detected, just use `yarn dev`.
 
 ## Project build
 

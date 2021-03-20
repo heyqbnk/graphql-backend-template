@@ -27,6 +27,7 @@ threads in case it is needed
 cluster mode
 - Comfortable and conventional correct changes committing flow with commitizen
 - JSON Web Tokens authorization
+- Premade decorators and validators
 
 ## Routes
 
@@ -55,6 +56,7 @@ specified variables:
 | Name | Type | Is Required | Default value | Description |
 |---|---|---|---|---|
 | `APP_ENV` | `local`, `staging`, `production` | yes | | Project environment |
+| `DB_VOLUME_PATH` | `string` | yes | | Path to docker volume which will be shared with MongoDB docker container |
 | `ENABLE_CORS` | `boolean` | no | `0` | Should CORS be enabled |
 | `ENABLE_MULTI_THREAD` | `boolean` | no | `1` | Should multi cluster mode be enabled |
 | `GQL_ADMIN_HTTP_ENDPOINT` | `string` | no | `/gql-adm` | Path to admin GraphQL API |

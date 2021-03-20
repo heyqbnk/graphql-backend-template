@@ -13,6 +13,15 @@ services:
       - db
     restart: always
 
+  # MongoDB database.
+  db:
+    volumes:
+      - "$DB_VOLUME_PATH:/data/db"
+    image: mongo
+    expose:
+      - 27017
+    restart: always
+
   # Container which deploys source maps to sentry.
   source-maps:
     build:

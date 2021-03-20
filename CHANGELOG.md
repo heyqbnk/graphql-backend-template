@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/wolframdeus/graphql-backend-template/compare/v1.2.0...v1.3.0) (2021-03-20)
+
+
+### Features
+
+* **env:** add .env file example ([3972fd8](https://github.com/wolframdeus/graphql-backend-template/commit/3972fd8085e5900986544d3b2d314fc557873339))
+* **mongo:** add db variables and di client token ([968f966](https://github.com/wolframdeus/graphql-backend-template/commit/968f966d5f7ac88ee09e3686d3611720a0897967))
+* **security:** add security adapters and global project configuration ([9f36324](https://github.com/wolframdeus/graphql-backend-template/commit/9f36324780b5b6bdc16e9554da82170c72272075))
+
 ## [1.2.0](https://github.com/wolframdeus/graphql-backend-template/compare/v1.1.2...v1.2.0) (2021-03-20)
 
 

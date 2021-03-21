@@ -1,96 +1,50 @@
 import {EUserRole} from '~/shared/types';
-import {IUser} from '~/shared/db';
+import {ECollection, IUser} from '~/shared/db';
 import {Service} from 'typedi';
+import {BaseController} from '~/shared/controllers/BaseController';
+import md5 from 'md5';
+import {ObjectId} from 'bson';
 
 interface IRegisterOptions {
   firstName: string;
   lastName?: string;
   login: string;
   password: string;
+  role: EUserRole;
 }
 
+type TRegisterResult = 'User already exists' | IUser;
+
 @Service()
-export class UsersController {
-  private users: IUser[] = [{
-    id: 0,
-    firstName: 'admin',
-    login: 'admin',
-    password: 'admin',
-    role: EUserRole.Admin,
-  }];
+export class UsersController extends BaseController(ECollection.Users) {
+  findById = this.db.findById;
 
   /**
-   * Register new user.
+   * Register new user. In case, user already exists, returns error.
    * @param options
    */
-  register(options: IRegisterOptions): IUser {
-    const {firstName, lastName, login, password} = options;
-    const loweredLogin = login.toLowerCase();
-    const isRegistered = this.users.some(u => {
-      return u.login.toLowerCase() === loweredLogin;
-    });
+  async register(options: IRegisterOptions): Promise<TRegisterResult> {
+    const {login} = options;
+    const createdUser = await this.db.findOne({login});
 
-    if (isRegistered) {
-      throw new Error('User is already registered');
+    if (createdUser !== null) {
+      return 'User already exists';
     }
+    const {password, ...rest} = options;
 
-    this.users.push({
-      id: this.users.length,
-      firstName,
-      lastName,
+    return this.db.insertOne({
+      ...rest,
       login,
-      password,
-      role: EUserRole.Common,
+      password: md5(password),
     });
-
-    return this.users[this.users.length - 1];
   }
 
   /**
-   * Returns user by login and password.
-   * @param login
-   * @param password
-   */
-  getByLoginAndPassword(login: string, password: string): IUser | null {
-    return this
-      .users
-      .find(u => u.login === login && u.password === password) || null;
-  }
-
-  /**
-   * Returns user by id.
-   * @param id
-   */
-  getById(id: number): IUser | null {
-    return this
-      .users
-      .find(u => u.id === id) || null;
-  }
-
-  /**
-   * Checks if user is registered.
-   * @param id
-   */
-  isRegistered(id: number): boolean {
-    return this.users.some(u => u.id === id);
-  }
-
-  /**
-   * Updates user role.
-   * @param id
+   * Sets new role for user.
+   * @param userId
    * @param role
    */
-  setUserRole(id: number, role: EUserRole): IUser | null {
-    for (const user of this.users) {
-      if (user.id === id) {
-        if (user.role === role) {
-          return user;
-        }
-        user.role = role;
-
-        return user;
-      }
-    }
-    return null;
+  setUserRole(userId: ObjectId, role: EUserRole) {
+    return this.db.updateById(userId, {$set: {role}});
   }
 }

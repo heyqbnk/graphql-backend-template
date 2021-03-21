@@ -10,8 +10,8 @@ export class PostFieldsResolver implements ResolverInterface<Post> {
   usersController: UsersController;
 
   @FieldResolver()
-  user(@Root() post: Post) {
-    const user = this.usersController.getById(post.userId);
+  async user(@Root() post: Post) {
+    const user = await this.usersController.findById(post.userId);
 
     if (user === null) {
       throw new UserNotFoundError();

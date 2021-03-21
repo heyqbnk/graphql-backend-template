@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/v.kibenko/.nvm/versions/node/v12.16.1/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add @types/subscriptions-transport-ws
+  /Users/v.kibenko/.nvm/versions/node/v12.16.1/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add @types.bson
 
 PATH: 
   /Users/v.kibenko/.nvm/versions/node/v12.16.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin:/Users/v.kibenko/WebstormProjects/graphql-backend-template/node_modules/.bin
@@ -14,8 +14,8 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fsubscriptions-transport-ws: Not found
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
+  Error: https://registry.yarnpkg.com/@types.bson: Request "https://registry.yarnpkg.com/@types.bson" returned a 405
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66996:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
       at Request.emit (events.js:311:20)
       at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141720:10)
@@ -29,7 +29,7 @@ Trace:
 npm manifest: 
   {
     "name": "grapqhl-backend-template",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "main": "index.js",
     "license": "MIT",
     "scripts": {
@@ -74,13 +74,15 @@ npm manifest:
       "typescript": "4.0.2"
     },
     "dependencies": {
-      "@kibcode/mongodb-controllers": "^1.1.5",
+      "@kibcode/mongodb-controllers": "^1.1.6",
       "@sentry/integrations": "^6.1.0",
       "@sentry/node": "^6.1.0",
       "@sentry/tracing": "^5.29.2",
       "@types/jsonwebtoken": "^8.5.0",
+      "@types/md5": "^2.3.0",
       "@types/mongodb": "^3.6.10",
       "apollo-server-express": "^2.17.0",
+      "bson": "^4.2.3",
       "chalk": "^4.1.0",
       "class-validator": "^0.12.2",
       "cors": "^2.8.5",
@@ -92,8 +94,10 @@ npm manifest:
       "graphql": "^15.3.0",
       "graphql-subscriptions": "^1.1.0",
       "jsonwebtoken": "^8.5.1",
+      "md5": "^2.3.0",
       "mongodb": "^3.6.5",
       "reflect-metadata": "^0.1.13",
+      "subscriptions-transport-ws": "^0.9.18",
       "type-graphql": "^1.0.0",
       "typedi": "^0.8.0"
     },
@@ -409,10 +413,10 @@ Lockfile:
       normalize-path "^2.0.1"
       through2 "^2.0.3"
   
-  "@kibcode/mongodb-controllers@^1.1.5":
-    version "1.1.5"
-    resolved "https://registry.yarnpkg.com/@kibcode/mongodb-controllers/-/mongodb-controllers-1.1.5.tgz#4c55dbce3baa16f2aca39dd2850dbeb1a67ac7d0"
-    integrity sha512-COr3CP+Kxj9cIzxCzJn4ZzxwsGdJq71Q50sLWnzWeLl7k9Q37D/FgTSe3RTsqYMaCsWvdI+CocFYl/ESkZfjxA==
+  "@kibcode/mongodb-controllers@^1.1.6":
+    version "1.1.6"
+    resolved "https://registry.yarnpkg.com/@kibcode/mongodb-controllers/-/mongodb-controllers-1.1.6.tgz#34bb318f632924a97cf1e0da188e610eac4cf0f3"
+    integrity sha512-JMMQVAkE9v4NC0Bu5cATdPaGaIHJJPQYqXceFTyrgM4ZDorf6zZkaSrdlI5xkyxiIwwsAZnAPCApPbbSimo88g==
   
   "@nodelib/fs.scandir@2.1.4":
     version "2.1.4"
@@ -783,6 +787,13 @@ Lockfile:
     version "4.0.1"
     resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.1.tgz#459c65fa1867dafe6a8f322c4c51695663cc55e9"
     integrity sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
+  
+  "@types/md5@^2.3.0":
+    version "2.3.0"
+    resolved "https://registry.yarnpkg.com/@types/md5/-/md5-2.3.0.tgz#3b6a623091160f4dc75be3173e25f2110dc3fa1f"
+    integrity sha512-556YJ7ejzxIqSSxzyGGpctuZOarNZJt/zlEkhmmDc1f/slOEANHuwu2ZX7YaZ40rMiWoxt8GvAhoDpW1cmSy6A==
+    dependencies:
+      "@types/node" "*"
   
   "@types/mime@^1":
     version "1.3.2"
@@ -1501,6 +1512,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
     integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
   
+  base64-js@^1.3.1:
+    version "1.5.1"
+    resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
+    integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
+  
   base@^0.11.1:
     version "0.11.2"
     resolved "https://registry.yarnpkg.com/base/-/base-0.11.2.tgz#7bde5ced145b6d551a90db87f83c558b4eb48a8f"
@@ -1591,6 +1607,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.6.tgz#fb819be9a60cd677e0853aee4ca712a785d6618a"
     integrity sha512-EvVNVeGo4tHxwi8L6bPj3y3itEvStdwvvlojVxxbyYfoaxJ6keLgrTuKdyfEAszFK+H3olzBuafE0yoh0D1gdg==
   
+  bson@^4.2.3:
+    version "4.2.3"
+    resolved "https://registry.yarnpkg.com/bson/-/bson-4.2.3.tgz#be2f8d16c5c7c143aad4eadd2847bb1df5faf00d"
+    integrity sha512-3ztgjpKp0itFxGqzrLMHWqyZH5oMOIRWsjeY61yNVzrDGB/KxtgD6djFlz9n3vx7lLr2r6bkHagBCgyk1ZjETA==
+    dependencies:
+      buffer "^5.6.0"
+  
   buffer-equal-constant-time@1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
@@ -1605,6 +1628,14 @@ Lockfile:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
     integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
+  
+  buffer@^5.6.0:
+    version "5.7.1"
+    resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.7.1.tgz#ba62e7c13133053582197160851a8f648e99eed0"
+    integrity sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==
+    dependencies:
+      base64-js "^1.3.1"
+      ieee754 "^1.1.13"
   
   busboy@^0.3.1:
     version "0.3.1"
@@ -1704,6 +1735,11 @@ Lockfile:
     version "0.7.0"
     resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
     integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
+  
+  charenc@0.0.2:
+    version "0.0.2"
+    resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+    integrity sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=
   
   chokidar@^2.0.0:
     version "2.1.8"
@@ -2284,6 +2320,11 @@ Lockfile:
       path-key "^3.1.0"
       shebang-command "^2.0.0"
       which "^2.0.1"
+  
+  crypt@0.0.2:
+    version "0.0.2"
+    resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
+    integrity sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=
   
   css@^3.0.0:
     version "3.0.0"
@@ -3809,6 +3850,11 @@ Lockfile:
     dependencies:
       safer-buffer ">= 2.1.2 < 3"
   
+  ieee754@^1.1.13:
+    version "1.2.1"
+    resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
+    integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
+  
   ignore@^4.0.6:
     version "4.0.6"
     resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
@@ -3947,7 +3993,7 @@ Lockfile:
     dependencies:
       binary-extensions "^2.0.0"
   
-  is-buffer@^1.1.5:
+  is-buffer@^1.1.5, is-buffer@~1.1.6:
     version "1.1.6"
     resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
     integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
@@ -4644,6 +4690,15 @@ Lockfile:
       micromatch "^3.0.4"
       resolve "^1.4.0"
       stack-trace "0.0.10"
+  
+  md5@^2.3.0:
+    version "2.3.0"
+    resolved "https://registry.yarnpkg.com/md5/-/md5-2.3.0.tgz#c3da9a6aae3a30b46b7b0c349b87b110dc3bda4f"
+    integrity sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==
+    dependencies:
+      charenc "0.0.2"
+      crypt "0.0.2"
+      is-buffer "~1.1.6"
   
   media-typer@0.3.0:
     version "0.3.0"
@@ -6442,7 +6497,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
     integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
   
-  subscriptions-transport-ws@^0.9.11, subscriptions-transport-ws@^0.9.16:
+  subscriptions-transport-ws@^0.9.11, subscriptions-transport-ws@^0.9.16, subscriptions-transport-ws@^0.9.18:
     version "0.9.18"
     resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.18.tgz#bcf02320c911fbadb054f7f928e51c6041a37b97"
     integrity sha512-tztzcBTNoEbuErsVQpTN2xUNN/efAZXyCyL5m3x4t6SKrEiTL2N8SaKWBFWM4u56pL79ULif3zjyeq+oV+nOaA==

@@ -1,18 +1,20 @@
 import {Field, Int, Maybe, ObjectType} from 'type-graphql';
 import {IUser} from '~/shared/db';
 import {Post} from '~/api/resolvers';
+import {ObjectIdScalar} from '~/api/scalars';
+import {ObjectId} from 'mongodb';
 
 @ObjectType({description: 'User information'})
 export class User {
   constructor(user: IUser) {
-    const {lastName, id, firstName} = user;
-    this.id = id;
+    const {lastName, _id, firstName} = user;
+    this.id = _id;
     this.firstName = firstName;
     this.lastName = lastName;
   }
 
-  @Field(() => Int, {description: 'Unique identifier'})
-  id: number;
+  @Field(() => ObjectIdScalar, {description: 'Unique identifier'})
+  id: ObjectId;
 
   @Field(() => String, {description: 'First name'})
   firstName: string;

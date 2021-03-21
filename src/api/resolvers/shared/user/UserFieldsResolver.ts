@@ -14,6 +14,9 @@ export class UserFieldsResolver implements ResolverInterface<User> {
 
   @FieldResolver()
   posts(@Root() user: User) {
-    return this.postsController.getUserPosts(user.id).map(p => new Post(p));
+    return this
+      .postsController
+      .getUserPosts(user.id)
+      .then(items => items.map(p => new Post(p)));
   }
 }

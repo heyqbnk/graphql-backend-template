@@ -11,6 +11,8 @@ import {EUserRole} from '~/shared/types';
 import {UsersController} from '~/shared/controllers';
 import {Inject} from 'typedi';
 import {UserNotFoundError} from '~/api/errors';
+import {ObjectIdScalar} from '~/api/scalars';
+import {ObjectId} from 'bson';
 
 @Resolver()
 export class UserQueriesResolver {
@@ -22,12 +24,12 @@ export class UserQueriesResolver {
     description: 'Returns user by id',
     nullable: true,
   })
-  user(
-    @Arg('userId', () => Int, {
+  async user(
+    @Arg('userId', () => ObjectIdScalar, {
       description: 'User identifier'
-    }) userId: number,
-  ): Maybe<User> {
-    const user = this.controller.getById(userId);
+    }) userId: ObjectId,
+  ): Promise<Maybe<User>> {
+    const user = await this.controller.findById(userId);
 
     if (user === null) {
       throw new UserNotFoundError();

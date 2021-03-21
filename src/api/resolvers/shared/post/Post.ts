@@ -1,6 +1,7 @@
 import {Field, ObjectType} from 'type-graphql';
 import {User} from '~/api/resolvers';
 import {IPost} from '~/shared/db';
+import {ObjectId} from 'mongodb';
 
 @ObjectType({description: 'Post'})
 export class Post {
@@ -11,7 +12,7 @@ export class Post {
     this.content = content;
     this.title = title;
   }
-  userId: number;
+  userId: ObjectId;
 
   @Field(() => User, {description: 'Post owner'})
   user: User;

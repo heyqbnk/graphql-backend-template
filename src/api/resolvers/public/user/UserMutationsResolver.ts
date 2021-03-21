@@ -1,16 +1,9 @@
-import {
-  Args,
-  ArgsType,
-  Field,
-  Maybe,
-  Mutation,
-  ObjectType,
-  Resolver
-} from 'type-graphql';
+import {Args, ArgsType, Field, Maybe, Mutation, Resolver} from 'type-graphql';
 import {User} from '~/api/resolvers';
 import {IsAlphanumeric, MaxLength, MinLength} from 'class-validator';
 import {Inject} from 'typedi';
 import {UsersController} from '~/shared/controllers';
+import {EUserRole} from '~/shared/types';
 import {UserIsAlreadyRegisteredError} from '~/api/errors';
 
 @ArgsType()
@@ -22,8 +15,8 @@ class RegisterArgs {
 
   @MinLength(1)
   @MaxLength(30)
-  @Field(() => String, {description: 'Last name', nullable: true})
-  lastName?: Maybe<string>;
+  @Field(() => String, {description: 'Last name'})
+  lastName: string;
 
   @IsAlphanumeric()
   @MinLength(3)
@@ -37,54 +30,23 @@ class RegisterArgs {
   password: string;
 }
 
-@ObjectType()
-class RegisterResult {
-  constructor(user: User, token: string) {
-    this.user = user;
-    this.token = token;
-  }
-
-  @Field(() => User, {description: 'User information'})
-  user: User;
-
-  @Field(() => String, {description: 'Access token'})
-  token: string;
-}
-
 @Resolver()
 export class UserMutationsResolver {
   @Inject(() => UsersController)
   controller: UsersController;
 
-  @Mutation(() => RegisterResult)
-  register(
-    @Args(() => RegisterArgs) arg: RegisterArgs
-  ): RegisterResult {
-    return {
-      user: {
-        id: 1,
-        lastName: '',
-        firstName: '',
-        posts: []
-      },
-      token: ''
+  @Mutation(() => User)
+  async register(
+    @Args(() => RegisterArgs) args: RegisterArgs
+  ): Promise<User> {
+    const result = await this.controller.register({
+      ...args,
+      role: EUserRole.Common,
+    });
+
+    if (result === 'User already exists') {
+      throw new UserIsAlreadyRegisteredError()
     }
-    // const {firstName, lastName, login, password} = arg;
-    //
-    // try {
-    //   const user = this.controller.register({
-    //     firstName,
-    //     lastName: lastName || undefined,
-    //     login,
-    //     password,
-    //   });
-    //   const token = this
-    //     .accessController
-    //     .createDefaultUserToken(user.id);
-    //
-    //   return new RegisterResult(new User(user), token);
-    // } catch (e) {
-    //   throw new UserIsAlreadyRegisteredError();
-    // }
+    return new User(result);
   }
 }

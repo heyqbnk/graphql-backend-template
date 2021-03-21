@@ -20,3 +20,5 @@ export {MongoClient};
  */
 export const SecurityAdapterToken = new Token<TAppSecurityAdapter>();
 export {TAppSecurityAdapter as SecurityAdapter};
+
+export const DbToken = new Token();

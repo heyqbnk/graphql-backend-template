@@ -16,9 +16,9 @@ function createError(name: string, defaultMessage: string) {
 }
 
 export const AuthorizationError = createError(EApolloErrors.Authorization, 'Authorization required');
-export const BadParametersError = createError(EApolloErrors.BadParameters, 'Плохие параметры');
+export const BadParametersError = createError(EApolloErrors.BadParameters, 'Bad parameters');
 export const ForbiddenError = createError(EApolloErrors.Forbidden, 'Access denied');
 export const MissingScopeError = createError(EApolloErrors.MissingScope, 'Required scope is missing');
-export const UnknownError = createError(EApolloErrors.Unknown, 'Произошла неизвестная ошибка');
+export const UnknownError = createError(EApolloErrors.Unknown, 'Unknown error occurred');
 export const UserNotFoundError = createError(EApolloErrors.UserNotFound, 'User was not found');
 export const UserIsAlreadyRegisteredError = createError(EApolloErrors.UserIsAlreadyRegistered, 'User is already registered');

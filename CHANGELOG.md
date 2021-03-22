@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/wolframdeus/graphql-backend-template/compare/v1.5.0...v1.5.1) (2021-03-22)
+
+
+### Bug Fixes
+
+* **global types:** rename TAppSecurityAdapterContext to TAppSecurityAdapterSocketContext ([2498128](https://github.com/wolframdeus/graphql-backend-template/commit/24981282cc702c43ed6c96b0bf2ba84a1855eaf3))
+* **security adapters:** write correct getUser methods ([edbfabf](https://github.com/wolframdeus/graphql-backend-template/commit/edbfabfdb75612bf81b635c3d818c322b6c4d3f8))
+
 ## [1.5.0](https://github.com/wolframdeus/graphql-backend-template/compare/v1.4.1...v1.5.0) (2021-03-22)
 
 

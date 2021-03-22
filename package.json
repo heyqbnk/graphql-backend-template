@@ -1,6 +1,6 @@
 {
   "name": "grapqhl-backend-template",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

@@ -3,7 +3,7 @@ import {
   getAppEnvironment,
   getBoolean,
   getNumber,
-  getString,
+  getString, getVKAppCredentials,
 } from './utils';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -28,6 +28,7 @@ const gqlAdminWSEndpoint = getString('GQL_ADMIN_WS_ENDPOINT', {defaultValue: ''}
 const gqlPublicHttpEndpoint = getString('GQL_PUBLIC_HTTP_ENDPOINT', {defaultValue: '/gql'});
 const gqlPublicWSEndpoint = getString('GQL_PUBLIC_WS_ENDPOINT', {defaultValue: ''});
 const jwtSecretKey = getString('JWT_SECRET_KEY');
+const vkAppCredentials = getVKAppCredentials('VK_APP_CREDENTIALS', {defaultValue: []});
 
 export const config: IConfig = {
   appEnv,
@@ -44,4 +45,5 @@ export const config: IConfig = {
   port,
   release: packageJson.version + '-' + appEnv,
   sentryDsn: sentryDsn === '' ? null : sentryDsn,
+  vkAppCredentials,
 };

@@ -2,7 +2,7 @@ import {Container} from 'typedi';
 import {config} from '~/shared/config';
 import {ConfigToken, MongoClientToken, SecurityAdapterToken} from './tokens';
 import {MongoClient} from 'mongodb';
-import {JWTSecurityAdapter} from '~/shared/security-adapters';
+import {JWTSecurityAdapter} from '~/api/security-adapters';
 
 /**
  * Inject synchronous dependencies.

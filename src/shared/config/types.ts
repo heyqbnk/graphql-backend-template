@@ -1,6 +1,14 @@
 import {TAppEnvironment} from '~/shared/types';
 
 /**
+ * VK application credentials.
+ */
+export interface IVKAppCredentials {
+  appId: number;
+  secretKey: string;
+}
+
+/**
  * Project configuration.
  */
 export interface IConfig {
@@ -18,4 +26,5 @@ export interface IConfig {
   port: number;
   release: string;
   sentryDsn: string | null;
+  vkAppCredentials: IVKAppCredentials[];
 }

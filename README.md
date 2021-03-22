@@ -51,6 +51,7 @@ you are able to write your custom adapters (see [Security adapters](#security-ad
 | `boolean` | `0 or 1` |
 | `number` | `77361829` |
 | `string` | `some-string` |
+| `AppCredentials` | `66731827:my-secret-key,553261324:another-secret-key` |
 
 To launch project, it is required to create file `.env` with
 specified variables:
@@ -74,6 +75,7 @@ specified variables:
 | `PORT` | `number` | yes | | HttpServer port |
 | `SENTRY_DSN` | `string` | Required when `APP_ENV` is equal to `staging` or `production` | | Sentry DSN for error logging |
 | `SENTRY_DEPLOY_TOKEN` | `string` | Required when `APP_ENV` is equal to `staging` or `production` | | Sentry token used while deploying artifacts |
+| `VK_APP_CREDENTIALS` | `AppCredentials` | no | `[]` | List of comma separated credentials required to authorize user |
 
 ## Security adapters
 

@@ -1,7 +1,6 @@
 import {ExpressContext} from 'apollo-server-express';
 import {GraphQLError, GraphQLFormattedError} from 'graphql';
 import {ExecutionParams} from 'subscriptions-transport-ws';
-import {IUser} from '~/shared/db';
 import {TValueOrPromise} from '~/shared/types';
 
 /**
@@ -25,7 +24,7 @@ export type TGetUser<Context, User> = (context: Context) => TValueOrPromise<User
  * Describes security adapter which is used by apollo server in resolvers and
  * while processing client first request.
  */
-export interface ISecurityAdapter<OnConnectResult, ProducedContext, User> {
+export interface ISecurityAdapter<SocketContext, ProducedContext, User> {
   /**
    * Creates context which is used in resolvers. It is important, that context
    * creator should not forget options context. It means, there are 2 important
@@ -35,14 +34,14 @@ export interface ISecurityAdapter<OnConnectResult, ProducedContext, User> {
    * "onConnect" (the value you see there is object with "context" field which
    * equals value returned from this method).
    */
-  createContext: TCreateContext<OnConnectResult, ProducedContext>;
+  createContext: TCreateContext<SocketContext, ProducedContext>;
   /**
    * Function which is called when client is trying to establish websocket
    * connection with current server. The result returned from this function
    * is passed to createContext's first argument (connection.context).
    * @param connectionParams
    */
-  onConnect(connectionParams: Record<any, any>): OnConnectResult;
+  onConnect?(connectionParams: Record<any, any>): SocketContext;
   /**
    * Formats error occurred in resolver before sending it to client. Dont
    * forget that GraphQLFormattedError is just a minimal set of fields, it is

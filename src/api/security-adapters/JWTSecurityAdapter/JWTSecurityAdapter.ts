@@ -1,50 +1,37 @@
-import {ISecurityAdapter, TCreateContext, TGetUser} from './types';
-import {defaultFormatError} from './shared';
+import {ISecurityAdapter, TCreateContext, TGetUser} from '../types';
+import {defaultFormatError} from '../shared';
 import {isUndefined} from '~/shared/utils';
 import {Inject, Service} from 'typedi';
 import {JWT} from '~/shared/services';
-import {IUser} from '~/shared/db';
-
-export interface IJWTUnauthorizedContext {
-  /**
-   * Client JSON Web token.
-   */
-  token: string | null;
-}
-
-export interface IJWTAuthorizedContext extends IJWTUnauthorizedContext {
-  /**
-   * Token is required in authorized context.
-   */
-  token: string;
-}
-
-export type TJWTAnyContext = IJWTUnauthorizedContext | IJWTAuthorizedContext;
-export type TJWTUser = IUser;
+import {
+  TJWTProducedContext,
+  IJWTSocketContext,
+  TJWTUser,
+} from '~/api/security-adapters';
 
 /**
  * JSON Web Token security adapter.
  */
 @Service()
 export class JWTSecurityAdapter
-  implements ISecurityAdapter<IJWTUnauthorizedContext,
-    TJWTAnyContext,
+  implements ISecurityAdapter<IJWTSocketContext,
+    TJWTProducedContext,
     TJWTUser> {
   @Inject(() => JWT)
   jwt: JWT;
 
   formatError = defaultFormatError;
 
-  onConnect(connectionParams: Record<any, any>): IJWTUnauthorizedContext {
+  onConnect(connectionParams: Record<any, any>): IJWTSocketContext {
     return {
       token: (connectionParams['authorization'] || '').split(' ')[1] || null,
     };
   }
 
-  createContext: TCreateContext<IJWTUnauthorizedContext, TJWTAnyContext> =
+  createContext: TCreateContext<IJWTSocketContext, TJWTProducedContext> =
     expressContext => {
       const {req, connection} = expressContext;
-      let context: TJWTAnyContext;
+      let context: TJWTProducedContext;
 
       // In case, connection is undefined, it means, context is being created in
       // usual HTTP resolver.
@@ -69,7 +56,7 @@ export class JWTSecurityAdapter
       return context;
     };
 
-  getUser: TGetUser<TJWTAnyContext, TJWTUser> = context => {
+  getUser: TGetUser<TJWTProducedContext, TJWTUser> = context => {
     return {
       id: 1,
     } as any;

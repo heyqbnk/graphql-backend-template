@@ -1,5 +1,6 @@
 import {TAppEnvironment} from '~/shared/types';
 import {isBoolean, isString, isUndefined} from '~/shared/utils';
+import {IVKAppCredentials} from '~/shared/config/types';
 
 interface IGetStringOptions {
   defaultValue?: string;
@@ -16,6 +17,10 @@ interface IGetBooleanOptions {
 
 interface IGetAppEnvironmentOptions {
   defaultValue?: TAppEnvironment;
+}
+
+interface IGetAppCredentialsOptions {
+  defaultValue?: IVKAppCredentials[];
 }
 
 /**
@@ -118,6 +123,41 @@ export function getAppEnvironment(
     throw createError(variableName);
   }
   if (isString(defaultValue)) {
+    return defaultValue;
+  }
+  throw createError(variableName);
+}
+
+/**
+ * Parses variable as VK application credentials.
+ * @param {string} variableName
+ * @param options
+ * @returns {IVKAppCredentials[]}
+ */
+export function getVKAppCredentials(
+  variableName: string,
+  options: IGetAppCredentialsOptions = {},
+): IVKAppCredentials[] {
+  const {defaultValue} = options;
+  const value = process.env[variableName];
+
+  if (isString(value)) {
+    const parsed = value.split(',').map(cred => {
+      const [appIdStr, secretKey = ''] = cred.split(':');
+      const appId = Number(appIdStr);
+
+      if (Number.isNaN(appId) || secretKey.length === 0) {
+        throw createError(variableName);
+      }
+      return {appId, secretKey};
+    });
+
+    if (parsed.length === 0) {
+      throw createError(variableName);
+    }
+    return parsed;
+  }
+  if (!isUndefined(defaultValue)) {
     return defaultValue;
   }
   throw createError(variableName);

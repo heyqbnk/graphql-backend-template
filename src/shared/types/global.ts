@@ -1,7 +1,7 @@
 import {
-  IJWTUnauthorizedContext, ISecurityAdapter,
-  TJWTAnyContext, TJWTUser,
-} from '~/shared/security-adapters';
+  ISecurityAdapter, TJWTUser, IJWTSocketContext, TJWTProducedContext,
+  IVKMASocketContext, IVKMAProducedContext, TVKMAUser,
+} from '~/api/security-adapters';
 
 /**
  * This file is used as global project configuration. Some of the application's
@@ -9,15 +9,18 @@ import {
  * correct types.
  */
 
+type TCreateAdapterSettings<SocketContext, ProducedContext, User> = {
+  context: SocketContext;
+  producedContext: ProducedContext;
+  user: User;
+}
+
 /**
  * Map with settings for each provider.
  */
 interface ISecurityAdapterSettings {
-  jwt: {
-    context: IJWTUnauthorizedContext;
-    producedContext: TJWTAnyContext;
-    user: TJWTUser;
-  };
+  jwt: TCreateAdapterSettings<IJWTSocketContext, TJWTProducedContext, TJWTUser>;
+  vk: TCreateAdapterSettings<IVKMASocketContext, IVKMAProducedContext, TVKMAUser>;
 }
 
 /**

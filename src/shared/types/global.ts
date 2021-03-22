@@ -10,7 +10,7 @@ import {
  */
 
 type TCreateAdapterSettings<SocketContext, ProducedContext, User> = {
-  context: SocketContext;
+  socketContext: SocketContext;
   producedContext: ProducedContext;
   user: User;
 }
@@ -40,9 +40,9 @@ type TAppSecurityAdapterSetting<Setting extends keyof (ISecurityAdapterSettings[
  */
 type TAppSecurityAdapterType = 'vk';
 
-export type TAppSecurityAdapterContext = TAppSecurityAdapterSetting<'context'>;
+export type TAppSecurityAdapterSocketContext = TAppSecurityAdapterSetting<'socketContext'>;
 export type TAppSecurityAdapterProducedContext = TAppSecurityAdapterSetting<'producedContext'>;
 export type TAppSecurityAdapterUser = TAppSecurityAdapterSetting<'user'>;
-export type TAppSecurityAdapter = ISecurityAdapter<TAppSecurityAdapterContext,
+export type TAppSecurityAdapter = ISecurityAdapter<TAppSecurityAdapterSocketContext,
   TAppSecurityAdapterProducedContext,
   TAppSecurityAdapterUser>;

@@ -29,6 +29,9 @@ cluster mode
 - Comfortable and conventional correct changes committing flow with commitizen
 - JSON Web Tokens authorization
 - Premade decorators and validators
+- Several security adapters which allow working in both standard mode (via json
+web tokens) and [VK Mini Apps](https://vk.com/dev/vk_apps_docs) mode. Moreover,
+you are able to write your custom adapters (see [Security adapters](#security-adapters) section) 
 
 ## Routes
 
@@ -71,6 +74,35 @@ specified variables:
 | `PORT` | `number` | yes | | HttpServer port |
 | `SENTRY_DSN` | `string` | Required when `APP_ENV` is equal to `staging` or `production` | | Sentry DSN for error logging |
 | `SENTRY_DEPLOY_TOKEN` | `string` | Required when `APP_ENV` is equal to `staging` or `production` | | Sentry token used while deploying artifacts |
+
+## Security adapters
+
+You could use your server for different types of environments. Maybe, you are 
+common web developer which wants to create a usual server with security based on
+JSON Web Tokens, or maybe you are VK Mini Apps developer which has the other
+flow based on application launch parameters. So, in this case, project provides 
+such functionality as Security Adapter.
+
+Tha main its purpose is to provide some code flow utilities which define
+with which types of data you will work in resolvers. Additionally, it defines
+how user authenticates and authorizes.
+
+You can find an example of JSON Web Tokens based security adapter [here](https://github.com/wolframdeus/graphql-backend-template/blob/master/src/shared/security-adapters/JWTSecurityAdapter.ts).
+
+### Changing project's security adapter
+
+If you want to change project's security adapter, you have to change special
+types, which are placed [here](https://github.com/wolframdeus/graphql-backend-template/blob/master/src/shared/types/global.ts).
+You can add new security adapter in `ISecurityAdapterSettings` and just
+change `TAppSecurityAdapterType` to key of new adapter. Then, try to build
+your project and fix occurring errors (probably, you will have to just 
+replace security adapter value in DI).
+
+> **NOTE**: You can only have 1 security adapter in project due to architecture
+> restrictions. The reason is most of the Type GraphQL decorators know only 
+> about one security adapter.
+>
+> To use several security adapters you have to make changes in code. 
 
 ## Scripts
 

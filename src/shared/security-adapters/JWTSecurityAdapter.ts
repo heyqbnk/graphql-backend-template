@@ -3,7 +3,6 @@ import {defaultFormatError} from './shared';
 import {isUndefined} from '~/shared/utils';
 import {Inject, Service} from 'typedi';
 import {JWT} from '~/shared/services';
-import {TValueOrPromise} from '~/shared/types';
 import {IUser} from '~/shared/db';
 
 export interface IJWTUnauthorizedContext {

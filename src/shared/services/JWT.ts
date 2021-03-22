@@ -4,16 +4,17 @@ import {IConfig} from '~/shared/config';
 import jwt from 'jsonwebtoken';
 import {EUserRole} from '~/shared/types';
 import {isArray, isNumber, isObject, isString} from '~/shared/utils';
+import {ObjectId} from 'bson';
 
 interface IUserToken {
   /**
    * User identifier.
    */
-  id: number;
+  id: ObjectId;
   /**
-   * List of user roles.
+   * User role.
    */
-  roles: EUserRole[];
+  role: EUserRole;
 }
 
 /**

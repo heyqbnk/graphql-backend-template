@@ -1,10 +1,17 @@
-import {Args, ArgsType, Field, Maybe, Mutation, Resolver} from 'type-graphql';
+import {
+  Arg,
+  Args,
+  ArgsType,
+  Field,
+  Mutation,
+  Resolver,
+} from 'type-graphql';
 import {User} from '~/api/resolvers';
 import {IsAlphanumeric, MaxLength, MinLength} from 'class-validator';
 import {Inject} from 'typedi';
 import {UsersController} from '~/shared/controllers';
 import {EUserRole} from '~/shared/types';
-import {UserIsAlreadyRegisteredError} from '~/api/errors';
+import {UserIsAlreadyRegisteredError, UserNotFoundError} from '~/api/errors';
 
 @ArgsType()
 class RegisterArgs {
@@ -35,9 +42,11 @@ export class UserMutationsResolver {
   @Inject(() => UsersController)
   controller: UsersController;
 
-  @Mutation(() => User)
+  @Mutation(() => User, {
+    description: 'Registers new user'
+  })
   async register(
-    @Args(() => RegisterArgs) args: RegisterArgs
+    @Args(() => RegisterArgs) args: RegisterArgs,
   ): Promise<User> {
     const result = await this.controller.register({
       ...args,
@@ -45,7 +54,7 @@ export class UserMutationsResolver {
     });
 
     if (result === 'User already exists') {
-      throw new UserIsAlreadyRegisteredError()
+      throw new UserIsAlreadyRegisteredError;
     }
     return new User(result);
   }

@@ -1,47 +1,36 @@
-import {Args, ArgsType, Field, Query, Resolver} from 'type-graphql';
-import {User} from '~/api/resolvers';
+import {Arg, Query, Resolver} from 'type-graphql';
 import {Inject} from 'typedi';
 import {UsersController} from '~/shared/controllers';
-import {UseContext, Context, CurrentUser, UseCurrentUser} from '~/api/decorators';
-
-@ArgsType()
-class LoginArgs {
-  @Field(() => String, {description: 'Login'})
-  login: string;
-
-  @Field(() => String, {description: 'Password'})
-  password: string;
-}
+import {UserNotFoundError} from '~/api/errors';
+import {User} from '~/api/resolvers';
+import {UseCurrentUser, CurrentUser} from '~/api/decorators';
 
 @Resolver()
 export class UserQueriesResolver {
   @Inject(() => UsersController)
   controller: UsersController;
 
-  // @Query(() => User, {
-  //   description: 'Returns information about current user',
-  // })
-  // user(): User {
-  //   return new User(user);
-  // }
+  @Query(() => User, {
+    description: 'Returns information about current user',
+  })
+  user(@UseCurrentUser() user: CurrentUser): User {
+    return new User(user);
+  }
 
   @Query(() => String, {
-    description: 'Authenticates user and returns token with default ' +
-      'access scopes'
+    description: 'Authenticates user returning his json web token',
   })
-  login(
-    @UseCurrentUser() user: CurrentUser,
-    @UseContext() ctx: Context,
-    @Args(() => LoginArgs) args: LoginArgs,
-  ): string {
-    console.log(ctx, user)
-    // const {login, password} = args;
-    // const user = this.controller.getByLoginAndPassword(login, password);
-    //
-    // if (user === null) {
-    //   throw new UserNotFoundError();
-    // }
-    // return this.accessController.createDefaultUserToken(user.id);
-    return ''
+  async login(
+    @Arg('login', () => String, {description: 'Login'})
+      login: string,
+    @Arg('password', () => String, {description: 'Password'})
+      password: string,
+  ): Promise<string> {
+    const token = await this.controller.login(login, password);
+
+    if (token === null) {
+      throw new UserNotFoundError;
+    }
+    return token;
   }
 }

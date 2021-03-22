@@ -1,6 +1,5 @@
 import {ISecurityAdapter, TCreateContext, TGetUser} from '../types';
 import {defaultFormatError} from '../shared';
-import {isUndefined} from '~/shared/utils';
 import {Inject, Service} from 'typedi';
 import {JWT} from '~/shared/services';
 import {
@@ -8,6 +7,7 @@ import {
   IJWTSocketContext,
   TJWTUser,
 } from '~/api/security-adapters';
+import {UsersController} from '~/shared/controllers';
 
 /**
  * JSON Web Token security adapter.
@@ -19,6 +19,9 @@ export class JWTSecurityAdapter
     TJWTUser> {
   @Inject(() => JWT)
   jwt: JWT;
+
+  @Inject(() => UsersController)
+  usersController: UsersController;
 
   formatError = defaultFormatError;
 
@@ -35,7 +38,7 @@ export class JWTSecurityAdapter
 
       // In case, connection is undefined, it means, context is being created in
       // usual HTTP resolver.
-      if (isUndefined(connection)) {
+      if (connection === undefined) {
         context = {
           token: (req.header('authorization') || '').split(' ')[1] || null,
         };
@@ -56,10 +59,9 @@ export class JWTSecurityAdapter
       return context;
     };
 
-  getUser: TGetUser<TJWTProducedContext, TJWTUser> = context => {
-    return {
-      id: 1,
-    } as any;
-    // return null;
+  getUser: TGetUser<TJWTProducedContext, TJWTUser> = async context => {
+    return 'user' in context
+      ? this.usersController.findById(context.user.id)
+      : null;
   };
 }

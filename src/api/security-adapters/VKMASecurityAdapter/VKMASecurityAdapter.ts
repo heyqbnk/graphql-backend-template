@@ -1,12 +1,13 @@
 import {ISecurityAdapter, TCreateContext, TGetUser} from '../types';
 import {defaultFormatError} from '../shared';
-import {Service} from 'typedi';
+import {Inject, Service} from 'typedi';
 import qs from 'querystring';
 import {
   IVKMAProducedContext, IVKMASocketContext, TVKMAUser,
 } from './types';
 import {AuthorizationError, LaunchParametersExpiredError} from '~/api/errors';
 import {verifyLaunchParams} from '~/api/security-adapters/VKMASecurityAdapter/utils';
+import {UsersController} from '~/shared/controllers';
 
 /**
  * VK Mini Apps security adapter.
@@ -16,6 +17,9 @@ export class VKMASecurityAdapter
   implements ISecurityAdapter<IVKMASocketContext,
     IVKMAProducedContext,
     TVKMAUser> {
+  @Inject(() => UsersController)
+  usersController: UsersController;
+
   formatError = defaultFormatError;
 
   onConnect(connectionParams: Record<any, any>): IVKMASocketContext {
@@ -53,9 +57,6 @@ export class VKMASecurityAdapter
     };
 
   getUser: TGetUser<IVKMAProducedContext, TVKMAUser> = context => {
-    return {
-      id: 1,
-    } as any;
-    // return null;
+    return this.usersController.findByUserId(context.launchParams.userId);
   };
 }

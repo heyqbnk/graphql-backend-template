@@ -7,6 +7,7 @@ import {ObjectId} from 'bson';
 import {JWT} from '~/shared/services';
 
 interface IRegisterOptions {
+  vkUserId?: number;
   firstName: string;
   lastName?: string;
   login: string;
@@ -22,6 +23,14 @@ export class UsersController extends BaseController(ECollection.Users) {
   jwt: JWT;
 
   findById = this.db.findById;
+
+  /**
+   * Returns user by his vk user id.
+   * @param vkUserId
+   */
+  findByUserId(vkUserId: number): Promise<IUser | null> {
+    return this.db.findOne({vkUserId});
+  }
 
   /**
    * Register new user. In case, user already exists, returns error.

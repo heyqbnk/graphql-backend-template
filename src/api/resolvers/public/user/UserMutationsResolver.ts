@@ -1,5 +1,4 @@
 import {
-  Arg,
   Args,
   ArgsType,
   Field,
@@ -11,7 +10,8 @@ import {IsAlphanumeric, MaxLength, MinLength} from 'class-validator';
 import {Inject} from 'typedi';
 import {UsersController} from '~/shared/controllers';
 import {EUserRole} from '~/shared/types';
-import {UserIsAlreadyRegisteredError, UserNotFoundError} from '~/api/errors';
+import {UserIsAlreadyRegisteredError} from '~/api/errors';
+import {UseContext, Context} from '~/api/decorators';
 
 @ArgsType()
 class RegisterArgs {
@@ -46,11 +46,13 @@ export class UserMutationsResolver {
     description: 'Registers new user'
   })
   async register(
+    @UseContext() ctx: Context,
     @Args(() => RegisterArgs) args: RegisterArgs,
   ): Promise<User> {
     const result = await this.controller.register({
       ...args,
       role: EUserRole.Common,
+      vkUserId: ctx.launchParams.userId,
     });
 
     if (result === 'User already exists') {

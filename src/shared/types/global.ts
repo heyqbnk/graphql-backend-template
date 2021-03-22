@@ -38,7 +38,7 @@ type TAppSecurityAdapterSetting<Setting extends keyof (ISecurityAdapterSettings[
  * ISecurityAdapterSettings to fastly change security adapter all over the
  * project.
  */
-type TAppSecurityAdapterType = 'jwt';
+type TAppSecurityAdapterType = 'vk';
 
 export type TAppSecurityAdapterContext = TAppSecurityAdapterSetting<'context'>;
 export type TAppSecurityAdapterProducedContext = TAppSecurityAdapterSetting<'producedContext'>;

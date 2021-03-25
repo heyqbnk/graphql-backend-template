@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/wolframdeus/graphql-backend-template/compare/v1.5.4...v1.6.0) (2021-03-25)
+
+
+### Features
+
+* **auth checker:** add auth checker to security adapters ([afcd809](https://github.com/wolframdeus/graphql-backend-template/commit/afcd809b51fdf7dd135636f96ff3467cdc823533))
+
 ### [1.5.4](https://github.com/wolframdeus/graphql-backend-template/compare/v1.5.3...v1.5.4) (2021-03-25)
 
 ### [1.5.3](https://github.com/wolframdeus/graphql-backend-template/compare/v1.5.2...v1.5.3) (2021-03-25)

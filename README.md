@@ -35,7 +35,7 @@ you are able to write your custom adapters (see [Security adapters](#security-ad
 
 ## Routes
 
-| Маршрут | Описание |
+| Route | Description |
 |---|---|
 | `$GQL_PUBLIC_HTTP_ENDPOINT` | Path to public GraphQL API |
 | `$GQL_PUBLIC_WS_ENDPOINT` | Path to public GraphQL websocket subscriptions |

@@ -74,6 +74,7 @@ export class ApolloServer {
     } = props;
     const schema = buildSchemaSync({
       ...restSchemaOptions,
+      authChecker: securityAdapter.authChecker,
       globalMiddlewares,
       container,
       pubSub: subscriptionsPath ? Container.get(PubSub) : undefined,

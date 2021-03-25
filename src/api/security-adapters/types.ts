@@ -2,6 +2,7 @@ import {ExpressContext} from 'apollo-server-express';
 import {GraphQLError, GraphQLFormattedError} from 'graphql';
 import {ExecutionParams} from 'subscriptions-transport-ws';
 import {TValueOrPromise} from '~/shared/types';
+import {AuthChecker} from 'type-graphql';
 
 /**
  * Rewired express context with redefined connection.
@@ -25,6 +26,12 @@ export type TGetUser<Context, User> = (context: Context) => TValueOrPromise<User
  * while processing client first request.
  */
 export interface ISecurityAdapter<SocketContext, ProducedContext, User> {
+  /**
+   * Function which is called when when type-graphql's decorator
+   * "Authorized" is called. It checks whether client has access to call
+   * resolver.
+   */
+  authChecker?: AuthChecker<ProducedContext>;
   /**
    * Creates context which is used in resolvers. It is important, that context
    * creator should not forget options context. It means, there are 2 important

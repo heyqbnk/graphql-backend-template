@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/wolframdeus/graphql-backend-template/compare/v1.6.1...v1.6.2) (2021-03-26)
+
+
+### Bug Fixes
+
+* **context:** workarounds for context creation ([5b8642e](https://github.com/wolframdeus/graphql-backend-template/commit/5b8642e79b7c1667fcfcdfa020137c9adc4cc6a6))
+
 ### [1.6.1](https://github.com/wolframdeus/graphql-backend-template/compare/v1.6.0...v1.6.1) (2021-03-26)
 
 

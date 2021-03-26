@@ -124,6 +124,7 @@ export class ApolloServer {
     const {
       gqlPublicWSEndpoint,
       gqlAdminWSEndpoint,
+      appEnv,
     } = Container.get(ConfigToken);
     const getResolvers = type === 'public'
       ? getPublicResolvers : getAdminResolvers;
@@ -135,8 +136,8 @@ export class ApolloServer {
       subscriptionsPath: wsPath || undefined,
       playground: true,
       securityAdapter,
-      // Allow introspection only for public resolvers.
-      introspection: type === 'public',
+      // Allow introspection only for public resolvers and local development.
+      introspection: type === 'public' || appEnv === 'local',
     });
   }
 

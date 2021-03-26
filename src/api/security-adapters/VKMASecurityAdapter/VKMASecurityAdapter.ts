@@ -42,6 +42,18 @@ export class VKMASecurityAdapter
       const {req, connection} = expressContext;
 
       if (connection === undefined) {
+        // Workaround for the problem when an error occurs in GraphQL
+        // playground due to it is not authorized.
+        if (req.get('x-apollo-tracing') === '1') {
+          return {
+            launchParamsQuery: {},
+            launchParams: {
+              userId: 0,
+              appId: 0,
+              lang: 'en',
+            },
+          };
+        }
         const launchParamsQuery = qs.parse(req.header('authorization') || '');
         const verificationResult = verifyLaunchParams(launchParamsQuery);
 

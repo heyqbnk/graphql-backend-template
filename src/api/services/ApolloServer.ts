@@ -69,23 +69,29 @@ export class ApolloServer {
       subscriptionsPath,
       playground = false,
       introspection = false,
-      securityAdapter,
+      securityAdapter: {
+        formatError,
+        onConnect,
+        middlewares = [],
+        authChecker,
+        createContext,
+      },
       ...restSchemaOptions
     } = props;
     const schema = buildSchemaSync({
       ...restSchemaOptions,
-      authChecker: securityAdapter.authChecker,
-      globalMiddlewares,
+      authChecker,
+      globalMiddlewares: [...globalMiddlewares, ...middlewares],
       container,
       pubSub: subscriptionsPath ? Container.get(PubSub) : undefined,
     });
 
     this.server = new OriginalApolloServer({
-      context: securityAdapter.createContext,
-      formatError: securityAdapter.formatError,
+      context: createContext,
+      formatError,
       subscriptions: isString(subscriptionsPath) ? {
         path: subscriptionsPath,
-        onConnect: securityAdapter.onConnect,
+        onConnect,
       } : false,
       schema,
       introspection,

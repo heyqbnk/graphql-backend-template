@@ -46,7 +46,9 @@ export interface IVKMASocketContext {
   launchParams: ILaunchParams;
 }
 
-export interface IVKMAProducedContext extends IVKMASocketContext {
+export interface IVKMAHttpContext extends Pick<IVKMASocketContext, 'launchParamsQuery'> {
 }
+
+export type TVKMAProducedContext = IVKMASocketContext;
 
 export type TVKMAUser = IUser;

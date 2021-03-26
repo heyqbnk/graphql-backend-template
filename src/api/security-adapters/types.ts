@@ -2,7 +2,7 @@ import {ExpressContext} from 'apollo-server-express';
 import {GraphQLError, GraphQLFormattedError} from 'graphql';
 import {ExecutionParams} from 'subscriptions-transport-ws';
 import {TValueOrPromise} from '~/shared/types';
-import {AuthChecker} from 'type-graphql';
+import {AuthChecker, MiddlewareFn} from 'type-graphql';
 
 /**
  * Rewired express context with redefined connection.
@@ -25,13 +25,12 @@ export type TGetUser<Context, User> = (context: Context) => TValueOrPromise<User
  * Describes security adapter which is used by apollo server in resolvers and
  * while processing client first request.
  */
-export interface ISecurityAdapter<SocketContext, ProducedContext, User> {
+export interface ISecurityAdapter<SocketContext, HttpContext, ProducedContext, User> {
   /**
-   * Function which is called when when type-graphql's decorator
-   * "Authorized" is called. It checks whether client has access to call
-   * resolver.
+   * Function which is called when when decorator Authorized is called.
+   * Dont remember that auth checker is called before all the middlewares.
    */
-  authChecker?: AuthChecker<ProducedContext>;
+  authChecker?: AuthChecker<HttpContext>;
   /**
    * Creates context which is used in resolvers. It is important, that context
    * creator should not forget options context. It means, there are 2 important
@@ -41,7 +40,7 @@ export interface ISecurityAdapter<SocketContext, ProducedContext, User> {
    * "onConnect" (the value you see there is object with "context" field which
    * equals value returned from this method).
    */
-  createContext: TCreateContext<SocketContext, ProducedContext>;
+  createContext: TCreateContext<SocketContext, HttpContext>;
   /**
    * Function which is called when client is trying to establish websocket
    * connection with current server. The result returned from this function
@@ -59,4 +58,10 @@ export interface ISecurityAdapter<SocketContext, ProducedContext, User> {
    * Should return user from produced context.
    */
   getUser: TGetUser<ProducedContext, User>;
+  /**
+   * List of middlewares which are being applied when request is
+   * processed. Normally, middlewares should modify request and as a
+   * result you should receive ProducedContext.
+   */
+  middlewares?: MiddlewareFn<HttpContext>[];
 }

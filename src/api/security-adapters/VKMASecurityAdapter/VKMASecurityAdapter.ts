@@ -3,11 +3,12 @@ import {defaultFormatError} from '../shared';
 import {Inject, Service} from 'typedi';
 import qs from 'querystring';
 import {
-  IVKMAProducedContext, IVKMASocketContext, TVKMAUser,
+  TVKMAProducedContext, IVKMASocketContext, TVKMAUser, IVKMAHttpContext,
 } from './types';
 import {AuthorizationError, LaunchParametersExpiredError} from '~/api/errors';
-import {verifyLaunchParams} from '~/api/security-adapters/VKMASecurityAdapter/utils';
+import {verifyLaunchParams} from './utils';
 import {UsersController} from '~/shared/controllers';
+import {VKMAAuthMiddleware} from '~/api/middlewares';
 
 /**
  * VK Mini Apps security adapter.
@@ -15,7 +16,8 @@ import {UsersController} from '~/shared/controllers';
 @Service()
 export class VKMASecurityAdapter
   implements ISecurityAdapter<IVKMASocketContext,
-    IVKMAProducedContext,
+    IVKMAHttpContext,
+    TVKMAProducedContext,
     TVKMAUser> {
   @Inject(() => UsersController)
   usersController: UsersController;
@@ -37,38 +39,21 @@ export class VKMASecurityAdapter
     return {launchParamsQuery, launchParams: verificationResult};
   }
 
-  createContext: TCreateContext<IVKMASocketContext, IVKMAProducedContext> =
+  createContext: TCreateContext<IVKMASocketContext, IVKMAHttpContext> =
     expressContext => {
       const {req, connection} = expressContext;
 
       if (connection === undefined) {
-        // Workaround for the problem when an error occurs in GraphQL
-        // playground due to it is not authorized.
-        if (req.get('x-apollo-tracing') === '1') {
-          return {
-            launchParamsQuery: {},
-            launchParams: {
-              userId: 0,
-              appId: 0,
-              lang: 'en',
-            },
-          };
-        }
-        const launchParamsQuery = qs.parse(req.header('authorization') || '');
-        const verificationResult = verifyLaunchParams(launchParamsQuery);
-
-        if (verificationResult === 'not-valid') {
-          throw new AuthorizationError;
-        }
-        if (verificationResult === 'expired') {
-          throw new LaunchParametersExpiredError;
-        }
-        return {launchParamsQuery, launchParams: verificationResult};
+        return {
+          launchParamsQuery: qs.parse(req.header('authorization') || ''),
+        };
       }
       return connection.context;
     };
 
-  getUser: TGetUser<IVKMAProducedContext, TVKMAUser> = context => {
+  getUser: TGetUser<TVKMAProducedContext, TVKMAUser> = context => {
     return this.usersController.findByUserId(context.launchParams.userId);
   };
+
+  middlewares = [VKMAAuthMiddleware];
 }

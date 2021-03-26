@@ -8,7 +8,7 @@ export interface IJWTSocketContext {
   token: string | null;
 }
 
-export interface IJWTAuthorizedContext extends IJWTSocketContext {
+export type TJWTHttpContext = {
   /**
    * Token is required in authorized context.
    */
@@ -17,7 +17,7 @@ export interface IJWTAuthorizedContext extends IJWTSocketContext {
    * User received from token.
    */
   user: IUserToken;
-}
+} | IJWTSocketContext;
 
-export type TJWTProducedContext = IJWTSocketContext | IJWTAuthorizedContext;
+export type TJWTProducedContext = IJWTSocketContext | TJWTHttpContext;
 export type TJWTUser = IUser;

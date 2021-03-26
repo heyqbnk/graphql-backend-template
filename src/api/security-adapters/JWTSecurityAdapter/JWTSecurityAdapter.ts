@@ -6,6 +6,7 @@ import {
   TJWTProducedContext,
   IJWTSocketContext,
   TJWTUser,
+  TJWTHttpContext,
 } from '~/api/security-adapters';
 import {UsersController} from '~/shared/controllers';
 
@@ -15,6 +16,7 @@ import {UsersController} from '~/shared/controllers';
 @Service()
 export class JWTSecurityAdapter
   implements ISecurityAdapter<IJWTSocketContext,
+    TJWTHttpContext,
     TJWTProducedContext,
     TJWTUser> {
   @Inject(() => JWT)
@@ -31,7 +33,7 @@ export class JWTSecurityAdapter
     };
   }
 
-  createContext: TCreateContext<IJWTSocketContext, TJWTProducedContext> =
+  createContext: TCreateContext<IJWTSocketContext, TJWTHttpContext> =
     expressContext => {
       const {req, connection} = expressContext;
       let context: TJWTProducedContext;

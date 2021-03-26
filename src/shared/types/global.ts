@@ -1,6 +1,12 @@
 import {
-  ISecurityAdapter, TJWTUser, IJWTSocketContext, TJWTProducedContext,
-  IVKMASocketContext, IVKMAProducedContext, TVKMAUser,
+  ISecurityAdapter,
+  TJWTUser,
+  IJWTSocketContext,
+  TJWTProducedContext,
+  IVKMASocketContext,
+  TVKMAUser,
+  IVKMAHttpContext,
+  TVKMAProducedContext, TJWTHttpContext,
 } from '~/api/security-adapters';
 
 /**
@@ -9,8 +15,9 @@ import {
  * correct types.
  */
 
-type TCreateAdapterSettings<SocketContext, ProducedContext, User> = {
+type TCreateAdapterSettings<SocketContext, HttpContext, ProducedContext, User> = {
   socketContext: SocketContext;
+  httpContext: HttpContext;
   producedContext: ProducedContext;
   user: User;
 }
@@ -19,8 +26,8 @@ type TCreateAdapterSettings<SocketContext, ProducedContext, User> = {
  * Map with settings for each provider.
  */
 interface ISecurityAdapterSettings {
-  jwt: TCreateAdapterSettings<IJWTSocketContext, TJWTProducedContext, TJWTUser>;
-  vk: TCreateAdapterSettings<IVKMASocketContext, IVKMAProducedContext, TVKMAUser>;
+  jwt: TCreateAdapterSettings<IJWTSocketContext, TJWTHttpContext, TJWTProducedContext, TJWTUser>;
+  vk: TCreateAdapterSettings<IVKMASocketContext, IVKMAHttpContext, TVKMAProducedContext, TVKMAUser>;
 }
 
 /**
@@ -41,8 +48,18 @@ type TAppSecurityAdapterSetting<Setting extends keyof (ISecurityAdapterSettings[
 type TAppSecurityAdapterType = 'vk';
 
 export type TAppSecurityAdapterSocketContext = TAppSecurityAdapterSetting<'socketContext'>;
+
+export type TAppSecurityAdapterHttpContext = TAppSecurityAdapterSetting<'httpContext'>;
+
+export type TAppSecurityAnyUnsafeContext =
+  | TAppSecurityAdapterSocketContext
+  | TAppSecurityAdapterHttpContext;
+
 export type TAppSecurityAdapterProducedContext = TAppSecurityAdapterSetting<'producedContext'>;
+
 export type TAppSecurityAdapterUser = TAppSecurityAdapterSetting<'user'>;
+
 export type TAppSecurityAdapter = ISecurityAdapter<TAppSecurityAdapterSocketContext,
+  TAppSecurityAdapterHttpContext,
   TAppSecurityAdapterProducedContext,
   TAppSecurityAdapterUser>;

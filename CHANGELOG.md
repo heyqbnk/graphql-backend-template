@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/wolframdeus/graphql-backend-template/compare/v1.6.0...v1.6.1) (2021-03-26)
+
+
+### Bug Fixes
+
+* **vkma security adapter:** allow playground get introspection query ([7b8dd6d](https://github.com/wolframdeus/graphql-backend-template/commit/7b8dd6dcbdf3fd7df0244d01d85c16899358dbde))
+
 ## [1.6.0](https://github.com/wolframdeus/graphql-backend-template/compare/v1.5.4...v1.6.0) (2021-03-25)
 
 
